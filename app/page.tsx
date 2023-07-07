@@ -1,189 +1,138 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import {createServerComponentClient} from '@supabase/auth-helpers-nextjs'
+import {cookies} from 'next/headers'
 import Link from 'next/link'
-import LogoutButton from '../components/LogoutButton'
-import SupabaseLogo from '../components/SupabaseLogo'
-import NextJsLogo from '../components/NextJsLogo'
-
-const resources = [
-  {
-    title: 'Cookie-based Auth and the Next.js App Router',
-    subtitle:
-      'This free course by Jon Meyers, shows you how to configure Supabase Auth to use cookies, and steps through some common patterns.',
-    url: 'https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF',
-    icon: 'M7 4V20M17 4V20M3 8H7M17 8H21M3 12H21M3 16H7M17 16H21M4 20H20C20.5523 20 21 19.5523 21 19V5C21 4.44772 20.5523 4 20 4H4C3.44772 4 3 4.44772 3 5V19C3 19.5523 3.44772 20 4 20Z',
-  },
-  {
-    title: 'Supabase Next.js App Router Example',
-    subtitle:
-      'Want to see a code example containing some common patterns with Next.js and Supabase? Check out this repo!',
-    url: 'https://github.com/supabase/supabase/tree/master/examples/auth/nextjs',
-    icon: 'M10 20L14 4M18 8L22 12L18 16M6 16L2 12L6 8',
-  },
-  {
-    title: 'Supabase Auth Helpers Docs',
-    subtitle:
-      'This template has configured Supabase Auth to use cookies for you, but the docs are a great place to learn more.',
-    url: 'https://supabase.com/docs/guides/auth/auth-helpers/nextjs',
-    icon: 'M12 6.25278V19.2528M12 6.25278C10.8321 5.47686 9.24649 5 7.5 5C5.75351 5 4.16789 5.47686 3 6.25278V19.2528C4.16789 18.4769 5.75351 18 7.5 18C9.24649 18 10.8321 18.4769 12 19.2528M12 6.25278C13.1679 5.47686 14.7535 5 16.5 5C18.2465 5 19.8321 5.47686 21 6.25278V19.2528C19.8321 18.4769 18.2465 18 16.5 18C14.7535 18 13.1679 18.4769 12 19.2528',
-  },
-]
-
-const examples = [
-  { type: 'Client Components', src: 'app/_examples/client-component/page.tsx' },
-  { type: 'Server Components', src: 'app/_examples/server-component/page.tsx' },
-  { type: 'Server Actions', src: 'app/_examples/server-action/page.tsx' },
-  { type: 'Route Handlers', src: 'app/_examples/route-handler.ts' },
-  { type: 'Middleware', src: 'app/middleware.ts' },
-  { type: 'Protected Routes', src: 'app/_examples/protected/page.tsx' },
-]
 
 export default async function Index() {
-  const supabase = createServerComponentClient({ cookies })
+  const supabase = createServerComponentClient({cookies})
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const {data: {
+      user
+    }} = await supabase.auth.getUser()
+
+  console.log(user)
+
+  const product = await supabase.from('products').select('*');
+  console.log(product);
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm text-foreground">
-          <div />
-          <div>
-            {user ? (
-              <div className="flex items-center gap-4">
-                Hey, {user.email}!
-                <LogoutButton />
+    <>
+      <div className="w-full h-screen bg-white">
+        <section className='container p-4'>
+          <div className='flex justify-between place-items-center'>
+            <h1 className='text-3xl font-bold'>AfifMart</h1>
+            <div className='align-middle'>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+              </svg>
+            </div>
+          </div>
+
+          <form className="flex items-center my-3">
+            <label htmlFor="simple-search" className="sr-only">Search</label>
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2"/>
+                </svg>
               </div>
-            ) : (
-              <Link
-                href="/login"
-                className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-              >
-                Login
+              <input type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search branch name..." required/>
+            </div>
+            <button type="submit" className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+              </svg>
+              <span className="sr-only">Search</span>
+            </button>
+          </form>
+
+          <div className='flex overflow-x-auto mb-3'>
+            {
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ].map((item, index) => (
+              <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Default</button>
+            ))
+          } </div>
+
+          <div className="grid grid-cols-2 gap-4 mb-16">
+            {
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ].map((item, index) => (
+              <Link key={
+                  `key-${index}`
+                }
+                href="/"
+                className="group">
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                  <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." className="h-full w-full object-cover object-center group-hover:opacity-75"/>
+                </div>
+                <h3 className="mt-4 text-sm text-gray-700">Earthen Bottle {
+                  index + 1
+                }</h3>
+                <p className="text-lg font-medium text-gray-900">$48</p>
               </Link>
-            )}
-          </div>
-        </div>
-      </nav>
+            ))
+          } </div>
+        </section>
 
-      <div className="animate-in flex flex-col gap-14 opacity-0 max-w-4xl px-3 py-16 lg:py-24 text-foreground">
-        <div className="flex flex-col items-center mb-4 lg:mb-12">
-          <div className="flex gap-8 justify-center items-center">
-            <Link href="https://supabase.com/" target="_blank">
-              <SupabaseLogo />
+        <section id="bottom-navigation" className="block fixed inset-x-0 bottom-0 z-10 bg-white shadow">
+          <div id="tabs" className="flex justify-between">
+            <Link href="/" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+              <svg className="inline-block mb-1 w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8v10a1 1 0 0 0 1 1h4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5h4a1 1 0 0 0 1-1V8M1 10l9-9 9 9"/>
+              </svg>
+              <span className="tab tab-home block text-xs">Beranda</span>
             </Link>
-            <span className="border-l rotate-45 h-6" />
-            <NextJsLogo />
-          </div>
-          <h1 className="sr-only">Supabase and Next.js Starter Template</h1>
-          <p className="text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center my-12">
-            The fastest way to start building apps with{' '}
-            <strong>Supabase</strong> and <strong>Next.js</strong>
-          </p>
-          <div className="bg-foreground py-3 px-6 rounded-lg font-mono text-sm text-background">
-            Get started by editing <strong>app/page.tsx</strong>
-          </div>
-        </div>
-
-        <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
-
-        <div className="flex flex-col gap-8 text-foreground">
-          <h2 className="text-lg font-bold text-center">
-            Everything you need to get started
-          </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {resources.map(({ title, subtitle, url, icon }) => (
-              <a
-                key={title}
-                className="relative flex flex-col group rounded-lg border p-6 hover:border-foreground"
-                href={url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <h3 className="font-bold mb-2  min-h-[40px] lg:min-h-[60px]">
-                  {title}
-                </h3>
-                <div className="flex flex-col grow gap-4 justify-between">
-                  <p className="text-sm opacity-70">{subtitle}</p>
-                  <div className="flex justify-between items-center">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="opacity-80 group-hover:opacity-100"
-                    >
-                      <path
-                        d={icon}
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="ml-2 h-4 w-4 opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all"
-                    >
-                      <polyline points="9 18 15 12 9 6" />
-                    </svg>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-8 text-foreground">
-          <div className="grid gap-2 justify-center mx-auto text-center">
-            <h2 className="text-lg font-bold text-center">Examples</h2>
-            <p className="text-sm">
-              Look in the <code>_examples</code> folder to see how to create a
-              Supabase client in all the different contexts.
-            </p>
-          </div>
-          <div className="w-full justify-center border rounded-lg overflow-hidden">
-            {examples.map(({ type, src }) => (
-              <div
-                key={type}
-                className="w-full grid grid-cols-3 border-b last:border-b-0 text-sm"
-              >
-                <div className="flex items-center font-bold p-4 min-h-12 w-full">
-                  {type}
-                </div>
-                <div className="col-span-2 border-l p-4 flex items-center">
-                  <code className="text-sm whitespace-pre-wrap">{src}</code>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex justify-center text-center text-xs">
-          <p>
-            Powered by{' '}
-            <Link
-              href="https://supabase.com/"
-              target="_blank"
-              className="font-bold"
-            >
-              Supabase
+            <Link href="/saved" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+              <svg className="inline-block mb-1 w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
+              </svg>
+              <span className="tab tab-explore block text-xs">Simpan</span>
             </Link>
-          </p>
-        </div>
+            <Link href="/cart" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+              <svg className="inline-block mb-1 w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0h8m-8 0-1-4m9 4a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-9-4h10l2-7H3m2 7L3 4m0 0-.792-3H1"/>
+              </svg>
+              <span className="tab tab-kategori block text-xs">Keranjang</span>
+            </Link>
+            <Link href={user ? "/akun" : "/login"} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+              <svg className="inline-block mb-1 w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
+              </svg>
+              <span className="tab tab-whishlist block text-xs">
+                {
+                user ? 'Akun' : 'Masuk'
+              }</span>
+            </Link>
+          </div>
+        </section>
       </div>
-    </div>
+    </>
   )
 }

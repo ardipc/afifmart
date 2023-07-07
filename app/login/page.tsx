@@ -34,6 +34,14 @@ export default function Login() {
     router.refresh()
   }
 
+  const handleSignInGithub = async () => {
+    const { data, error } =await supabase.auth.signInWithOAuth({
+      provider: 'github'
+    })
+    console.log(data)
+    console.log(error)
+  }
+
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <Link
@@ -54,72 +62,74 @@ export default function Login() {
         >
           <polyline points="15 18 9 12 15 6" />
         </svg>{' '}
-        Back
+        Kembali
       </Link>
       {view === 'check-email' ? (
         <p className="text-center text-foreground">
-          Check <span className="font-bold">{email}</span> to continue signing
-          up
+          Cek email kamu di <span className="font-bold">{email}</span> untuk melanjutkan pendaftaran.
         </p>
       ) : (
-        <form
-          className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-          onSubmit={view === 'sign-in' ? handleSignIn : handleSignUp}
-        >
-          <label className="text-md" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="rounded-md px-4 py-2 bg-inherit border mb-6"
-            name="email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            placeholder="you@example.com"
-          />
-          <label className="text-md" htmlFor="password">
-            Password
-          </label>
-          <input
-            className="rounded-md px-4 py-2 bg-inherit border mb-6"
-            type="password"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            placeholder="••••••••"
-          />
-          {view === 'sign-in' && (
-            <>
-              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
-                Sign In
-              </button>
-              <p className="text-sm text-center">
-                Don't have an account?
-                <button
-                  className="ml-1 underline"
-                  onClick={() => setView('sign-up')}
-                >
-                  Sign Up Now
+        <section className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+          <form
+            className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
+            onSubmit={view === 'sign-in' ? handleSignIn : handleSignUp}
+          >
+            <label className="text-md" htmlFor="email">
+              Email
+            </label>
+            <input
+              className="rounded-md px-4 py-2 bg-inherit border mb-2"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              placeholder="you@example.com"
+            />
+            <label className="text-md" htmlFor="password">
+              Password
+            </label>
+            <input
+              className="rounded-md px-4 py-2 bg-inherit border mb-4"
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              placeholder="••••••••"
+            />
+            {view === 'sign-in' && (
+              <>
+                <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
+                  Masuk
                 </button>
-              </p>
-            </>
-          )}
-          {view === 'sign-up' && (
-            <>
-              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
-                Sign Up
-              </button>
-              <p className="text-sm text-center">
-                Already have an account?
-                <button
-                  className="ml-1 underline"
-                  onClick={() => setView('sign-in')}
-                >
-                  Sign In Now
+                <p className="text-sm text-center">
+                  Belum punya akun?
+                  <button
+                    className="ml-1 underline"
+                    onClick={() => setView('sign-up')}
+                  >
+                    Daftar Sekarang
+                  </button>
+                </p>
+              </>
+            )}
+            {view === 'sign-up' && (
+              <>
+                <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
+                  Daftar
                 </button>
-              </p>
-            </>
-          )}
-        </form>
+                <p className="text-sm text-center">
+                  Sudah punya akun?
+                  <button
+                    className="ml-1 underline"
+                    onClick={() => setView('sign-in')}
+                  >
+                    Masuk Sekarang
+                  </button>
+                </p>
+              </>
+            )}
+
+          </form>
+        </section>
       )}
     </div>
   )
