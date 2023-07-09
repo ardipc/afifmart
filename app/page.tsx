@@ -5,14 +5,9 @@ import Link from 'next/link'
 export default async function Index() {
   const supabase = createServerComponentClient({cookies})
 
-  const {data: {
-      user
-    }} = await supabase.auth.getUser()
-
-  console.log(user)
-
-  const product = await supabase.from('products').select('*');
-  console.log(product);
+  const {data: {user}} = await supabase.auth.getUser()
+  const categories = await supabase.from('categories').select('*');
+  const products = await supabase.from('products').select('*');
 
   return (
     <>
@@ -40,7 +35,7 @@ export default async function Index() {
                     d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2"/>
                 </svg>
               </div>
-              <input type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search branch name..." required/>
+              <input type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari produk..." required/>
             </div>
             <button type="submit" className="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
               <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -54,36 +49,14 @@ export default async function Index() {
 
           <div className='flex overflow-x-auto mb-3'>
             {
-            [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10
-            ].map((item, index) => (
-              <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Default</button>
+            categories.data && categories.data.map((item, itme) => (
+              <span key={`sd-${Index}`} className="inline-flex mx-1 items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">{item.name}</span>
             ))
           } </div>
 
           <div className="grid grid-cols-2 gap-4 mb-16">
             {
-            [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9,
-              10
-            ].map((item, index) => (
+            products.data && products.data.map((item, index) => (
               <Link key={
                   `key-${index}`
                 }
@@ -92,10 +65,8 @@ export default async function Index() {
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                   <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." className="h-full w-full object-cover object-center group-hover:opacity-75"/>
                 </div>
-                <h3 className="mt-4 text-sm text-gray-700">Earthen Bottle {
-                  index + 1
-                }</h3>
-                <p className="text-lg font-medium text-gray-900">$48</p>
+                <h3 className="mt-4 text-sm text-gray-700">{item.name}</h3>
+                <p className="text-lg font-medium text-gray-900">{item.price.toLocaleString('id-ID')}</p>
               </Link>
             ))
           } </div>
