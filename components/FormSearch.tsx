@@ -2,7 +2,43 @@
 import Link from "next/link"
 import {useState} from "react"
 
-export default function FormSearch({products, categories} : any) {
+interface Product {
+  barcode: string;
+  category_id: number;
+  code: string
+  created_at: string
+  description: string;
+  hpp: Number;
+  id: number;
+  image: string;
+  is_publish: boolean;
+  isi: string;
+  name : string;
+  price: number
+  satuan: string
+  stok: number
+}
+
+interface Category {
+  created_at: string;
+  description: string;
+  id: number;
+  name: string;
+}
+
+interface Products {
+  data: Product[]
+}
+
+interface Categories {
+  data: Category[]
+}
+interface SearchProps {
+  products: Products;
+  categories: Categories;
+}
+
+export default function FormSearch({products, categories} : SearchProps) {
   const [search, setsearch] = useState('')
   const [produk, setproduk] = useState(products.data)
   const [kategori, setkategori] = useState(categories.data)
@@ -19,7 +55,7 @@ export default function FormSearch({products, categories} : any) {
 
   const onClickSearch = () => {
     let regExp = new RegExp(`${search}`, 'i')
-    let findProduct = products.data.filter((item : any) => {
+    let findProduct = products.data.filter((item: Product) => {
       return item.name.match(regExp)
     })
     setproduk(findProduct)
@@ -32,7 +68,6 @@ export default function FormSearch({products, categories} : any) {
     } else {
       setproduk(products.data)
     }
-
   }
 
   return (
@@ -75,7 +110,7 @@ export default function FormSearch({products, categories} : any) {
           className="inline-flex mx-1 items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
           SEMUA</span>
         {
-        kategori.length > 0 && kategori.map((item : any, index : any) => (
+        kategori.length > 0 && kategori.map((item : Category, index : number) => (
           <span key={
               `sd-${index}`
             }
@@ -91,11 +126,11 @@ export default function FormSearch({products, categories} : any) {
 
       <div className="grid grid-cols-2 gap-4 mb-16">
         {
-        produk.length > 0 && produk.map((item : any, index : any) => (
+        produk.length > 0 && produk.map((item : Product, index : number) => (
           <Link key={
               `key-${index}`
             }
-            href="/"
+            href={`/product/${item.id}`}
             className="group">
             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
               <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." className="h-full w-full object-cover object-center group-hover:opacity-75"/>

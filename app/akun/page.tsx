@@ -12,7 +12,7 @@ import {useRouter} from "next/navigation";
 export default function Page() {
   const router = useRouter()
   const supabase = createClientComponentClient()
-  const [user, setUser] = useState < User > ()
+  const [user, setUser] = useState<User>()
 
   const [loading, setLoading] = useState(false)
 
@@ -44,8 +44,8 @@ export default function Page() {
         <img src="https://source.unsplash.com/150x150/?portrait?3" alt="" className="w-32 h-32 mx-auto rounded-full dark:bg-gray-500 aspect-square"/>
         <div className="space-y-4 text-center divide-y divide-gray-700">
           <div className="my-2 space-y-1">
-            <h2 className="text-xl font-semibold sm:text-2xl">Leroy Jenkins</h2>
-            <p className="px-5 text-xs sm:text-base dark:text-gray-400">Full-stack developer</p>
+            <h2 className="text-xl font-semibold sm:text-2xl">{user?.email}</h2>
+            <p className="px-5 text-xs sm:text-base dark:text-gray-400">{user?.created_at}</p>
           </div>
           <div className="flex justify-center pt-2 space-x-4 align-center">
             <a rel="noopener noreferrer" href="#" aria-label="GitHub" className="p-2 rounded-md dark:text-gray-100 hover:dark:text-violet-400">
