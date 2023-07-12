@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
             Kembali
           </Link>
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={product.data.image} />
+            <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={product.data.image ?? `https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg`} />
 
             <div className="my-4">
               <GantiGambar id={params.slug} />

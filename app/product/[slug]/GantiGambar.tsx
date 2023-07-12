@@ -2,9 +2,12 @@
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import moment from "moment"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+import Compressor from "compressorjs"
 
 export default function GantiGambar({ id }: { id: string }) {
+  const router = useRouter()
   const supabase = createClientComponentClient()
   const [gambar, setGambar] = useState(null)
 
@@ -14,7 +17,7 @@ export default function GantiGambar({ id }: { id: string }) {
     // console.log(data)
     if (gambar) {
       //@ts-ignore
-      const filename = `${moment().format('yyyy-MM-DD')}/${gambar.name}`;
+      const filename = `${moment().format('yyyy-MM-DD')}/${moment().format('yyyyMMDDHHmmss')}-${gambar.name}`;
       const { data, error } = await supabase.storage
         .from("afifmart")
         .upload(filename, gambar, {
@@ -24,11 +27,19 @@ export default function GantiGambar({ id }: { id: string }) {
       const filepath = data?.path;
       const FULL_PATH = `https://cymagsnihvppzuqevvge.supabase.co/storage/v1/object/public/afifmart/${filepath}`
       await supabase.from("products").update({ image: FULL_PATH }).eq("id", id)
+      router.refresh()
     }
   }
 
   const handlePick = (e: any) => {
-    setGambar(e.target.files[0])
+    const image = e.target.files[0]
+    new Compressor(image, {
+      quality: 0.8,
+      success: (res) => {
+        //@ts-ignore
+        setGambar(res)
+      }
+    })
   }
 
   return (
