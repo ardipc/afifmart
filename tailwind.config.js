@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{js,ts,jsx,tsx,mdx}',"./node_modules/flowbite/**/*.js"],
+  content: ['./components/**/*.{js,ts,jsx,tsx,mdx}','./app/**/*.{js,ts,jsx,tsx,mdx}',"./node_modules/flowbite/**/*.js"],
   theme: {
     extend: {
       colors: {
@@ -17,5 +17,5 @@ module.exports = {
     require('@tailwindcss/aspect-ratio'),
     require('flowbite/plugin'),
     require("daisyui")
-  ],
+  ]
 }
