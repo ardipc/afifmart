@@ -16,7 +16,7 @@ export default async function Index({ searchParams }: { searchParams: { [key: st
 
   const { data: { user } } = await supabase.auth.getUser()
   const categories = await supabase.from('categories').select('*');
-  const products = await supabase.from('products').select('*').range(from, to);
+  const products = await supabase.from('products').select('*, categories(id, name)').range(from, to);
 
   return (
     <>
