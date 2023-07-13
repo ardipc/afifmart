@@ -43,10 +43,12 @@ export default function GantiGambar({ id }: { id: string }) {
   }
 
   return (
-    <div className="mb-3">
-      <label htmlFor="formFile" className="mb-2 inline-block text-neutral-700 dark:text-neutral-200">Ganti Gambar</label>
-      <input onChange={e => handlePick(e)} type="file" className="file-input file-input-bordered file-input-sm w-full max-w-xs mb-2" />
-      <button className="btn btn-primary btn-sm" onClick={() => clickUpload()}>Upload</button>
+    <div className="mb-4 mt-6 border p-3 rounded">
+      <div className="form-control">
+        <label htmlFor="formFile" className="mb-2 inline-block text-neutral-700 dark:text-neutral-200">Ganti Gambar</label>
+        <input onChange={e => handlePick(e)} type="file" className="file-input file-input-bordered w-full max-w-xs mb-2" />
+       </div>
+      <button className="btn btn-primary" onClick={() => clickUpload()}>Upload</button>
     </div>
   )
 }
