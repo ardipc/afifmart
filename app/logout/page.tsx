@@ -10,7 +10,7 @@ export default function Login() {
   const router = useRouter()
   const supabase = createClientComponentClient()
 
-  const handleSignOut = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignOut = async (e: any) => {
     e.preventDefault()
     setLoading(true)
     await supabase.auth.signOut()

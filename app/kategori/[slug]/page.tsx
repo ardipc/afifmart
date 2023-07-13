@@ -26,7 +26,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <NavbarTop />
+      <NavbarTop user={user} />
 
       <div className="container mx-2 my-3">
         <div className="text-sm breadcrumbs mb-3">
