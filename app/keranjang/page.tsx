@@ -6,15 +6,16 @@ import {useEffect, useState} from "react";
 
 import type {User}
 from "@supabase/auth-helpers-nextjs";
-import {useRouter} from "next/navigation";
 import NavbarTop from "@/components/NavbarTop";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const supabase = createClientComponentClient()
+
   const router = useRouter()
 
   const [user, setUser] = useState<User>()
-  const [loading, setLoading] = useState(false)
+  const [nama, setNama] = useState('')
   const [keranjang, setKeranjang] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
 
@@ -60,12 +61,34 @@ export default function Page() {
     updateTotal(find)
   }
 
+  const handleClickPesan = () => {
+    if(nama) {
+      let pesan = `*PESANAN BARU*\n\nNama : *${nama}*\nJumlah Barang : *${keranjang.length}*\n\n`
+      keranjang.map((item: any) => {
+        pesan += `- ${item.name} | ${item.quantity} ${item.satuan} | ${(item.price * item.quantity).toLocaleString('id-ID')}\n`
+      })
+      pesan += `\nTotal : *${subtotal.toLocaleString('id-ID')}*\n`
+      pesan += `\nTerimakasih.`
+  
+      window.open(`https://wa.me/6282334093822?text=${encodeURI(pesan)}&app_absent=0`, '_blank');
+      localStorage.removeItem('keranjang')
+      router.push(`/`)
+    } else {
+      window.modal_atas_nama.showModal()
+    }
+  }
+
   return (
     <>
       <NavbarTop user={user} />
       
       <section className="container">
-        
+        <div className="flex my-4">
+          <label className="label">
+            <span className="label-text me-3 font-bold">Pesanan Atas Nama :</span>
+          </label>
+          <input onChange={e => setNama(e.target.value)} value={nama} type="text" placeholder="Nama kamu" className="input input-bordered w-full max-w-xs input-error" />
+        </div>
         <div className="overflow-x-auto mt-3 mb-6">
           <table className="table">
             <thead>
@@ -131,7 +154,7 @@ export default function Page() {
       {
         keranjang.length > 0 &&
           <div className="fixed bottom-0 w-full px-8">
-            <button className="my-8 mx-2 ml-auto float-right px-5 py-2 btn btn-primary text-sm font-bold tracking-wide rounded-full">Pesan Sekarang</button>
+            <button onClick={() => handleClickPesan()} className="my-8 mx-2 ml-auto float-right px-5 py-2 btn btn-primary text-sm font-bold tracking-wide rounded-full">Pesan Sekarang</button>
             <button className="bottom-0 mx-2 my-8 float-right px-5 py-2 btn btn-neutral text-sm font-bold tracking-wide rounded-full">Grand Total : {subtotal.toLocaleString('id-ID')}</button>
           </div>
       }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default async function NavbarTop({ user }: {
+export default function NavbarTop({ user }: {
   user: User | null
 }) {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default async function NavbarTop({ user }: {
     }
 
     getKeranjang()
-  }, []);
+  }, [router]);
 
   return (
     <div className="navbar bg-base-100">
