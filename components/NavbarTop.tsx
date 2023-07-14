@@ -48,7 +48,7 @@ export default function NavbarTop({ user }: {
         {
           user &&
             <ul className="menu menu-horizontal px-1 z-[1]">
-              <li><a>Upload</a></li>
+              <li><Link href={`/upload`}>Upload</Link></li>
               {/* <li tabIndex={0}>
                 <details>
                   <summary>Kategori</summary>
