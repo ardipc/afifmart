@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import Link from "next/link";
 import GantiGambar from "./GantiGambar";
 import NavbarTop from "@/components/NavbarTop";
+import MasukKeranjang from "./MasukKeranjang";
 
 interface Slug {
   slug: string;
@@ -67,7 +68,8 @@ export default async function Page({ params }: Props) {
             </div>
             <div className="flex items-center">
               <span className="title-font font-medium text-4xl text-gray-900">IDR {product.data.price.toLocaleString('id-ID')}</span>
-              <button className="flex ml-auto text-white btn btn-primary mx-2">Masukan Keranjang</button>
+              {/* @ts-ignore */}
+              <MasukKeranjang item={product.data} />
               <button className="btn btn-circle">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
               </button>
