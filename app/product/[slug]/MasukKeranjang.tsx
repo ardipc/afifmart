@@ -1,9 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation";
-
-export default function MasukKeranjang({ item }: { item: any }) {
-  const router = useRouter()
+export default function MasukKeranjang({ item }: { item: any; }) {
 
   const handleKeranjang = (_: any) => {
     let keranjang = localStorage.getItem('keranjang');
@@ -23,7 +20,7 @@ export default function MasukKeranjang({ item }: { item: any }) {
     } else {
       localStorage.setItem('keranjang', JSON.stringify([item]))
     }
-    router.refresh();
+    window.location.reload()
   }
 
   return (

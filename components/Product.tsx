@@ -1,10 +1,8 @@
 "use client"
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function Product({ product }: { product: any; }) {
-  const router = useRouter()
   const item = product;
 
   const handleKeranjang = (_: any) => {
@@ -25,7 +23,7 @@ export default function Product({ product }: { product: any; }) {
     } else {
       localStorage.setItem('keranjang', JSON.stringify([item]))
     }
-    router.refresh();
+    window.location.reload()
   }
 
   return (

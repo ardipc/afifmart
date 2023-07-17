@@ -59,6 +59,7 @@ export default function Page() {
     setKeranjang(find)
     localStorage.setItem('keranjang', JSON.stringify(find))
     updateTotal(find)
+    window.location.reload()
   }
 
   const handleClickPesan = () => {
@@ -89,7 +90,7 @@ export default function Page() {
           </label>
           <input onChange={e => setNama(e.target.value)} value={nama} type="text" placeholder="Nama kamu" className="input input-bordered w-full max-w-xs input-error" />
         </div>
-        <div className="overflow-x-auto mt-3 mb-6">
+        <div className="overflow-x-auto mt-3 mb-20">
           <table className="table">
             <thead>
               <tr>
