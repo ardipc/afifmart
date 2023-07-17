@@ -39,17 +39,17 @@ export default function Form() {
     }
   }
 
-  function waktuProses(row) {
+  // function waktuProses(row) {
 
-  }
+  // }
 
-  function jikaError(error) {
+  // function jikaError(error) {
 
-  }
+  // }
 
-  function jikaSelesai() {
-    console.log
-  }
+  // function jikaSelesai() {
+  //   console.log
+  // }
 
   return (
     <div className="flex items-center align-middle my-4">
