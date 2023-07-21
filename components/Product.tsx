@@ -4,7 +4,6 @@ import Link from "next/link";
 
 export default function Product({ product }: { product: any; }) {
   const item = product;
-
   const handleKeranjang = (_: any) => {
     let keranjang = localStorage.getItem('keranjang');
     if(keranjang) {
@@ -23,7 +22,6 @@ export default function Product({ product }: { product: any; }) {
     } else {
       localStorage.setItem('keranjang', JSON.stringify([item]))
     }
-    window.location.reload()
   }
 
   return (

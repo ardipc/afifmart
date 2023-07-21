@@ -34,7 +34,11 @@ export default function NavbarTop({ user }: {
     }
 
     getKeranjang()
-  }, [router]);
+    const interval = setInterval(() => getKeranjang(), 3000);
+    return () => {
+      clearInterval(interval);
+    }
+  }, []);
 
   return (
     <div className="navbar bg-base-100">

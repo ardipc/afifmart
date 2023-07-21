@@ -59,7 +59,6 @@ export default function Page() {
     setKeranjang(find)
     localStorage.setItem('keranjang', JSON.stringify(find))
     updateTotal(find)
-    window.location.reload()
   }
 
   const handleClickPesan = () => {

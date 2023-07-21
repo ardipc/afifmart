@@ -1,7 +1,6 @@
 "use client"
 
 export default function MasukKeranjang({ item }: { item: any; }) {
-
   const handleKeranjang = (_: any) => {
     let keranjang = localStorage.getItem('keranjang');
     if(keranjang) {
@@ -20,7 +19,6 @@ export default function MasukKeranjang({ item }: { item: any; }) {
     } else {
       localStorage.setItem('keranjang', JSON.stringify([item]))
     }
-    window.location.reload()
   }
 
   return (
