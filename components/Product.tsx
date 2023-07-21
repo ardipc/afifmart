@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Product({ product }: { product: any; }) {
@@ -27,7 +28,10 @@ export default function Product({ product }: { product: any; }) {
   return (
     <>
       <div className="card card-compact bg-base-100 shadow-xl">
-        <figure><img src={item.image ?? 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg'} alt="Gambar Produk"/></figure>
+        <figure>
+          {/* <img src={item.image ?? 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg'} alt="Gambar Produk"/> */}
+          <Image width={500} height={500} src={item.image ?? 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg'} alt="Gambar Produk" />
+        </figure>
         <div className="card-body">
           <Link href={`/product/${item.id}`} className='cursor-pointer'><h2 className="font-bold text-xl">{item.name}</h2></Link>
           <p className='text-2xl'>IDR {item.price.toLocaleString('id-ID')}</p>
